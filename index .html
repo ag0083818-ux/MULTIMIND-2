@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">العقل المتعدد | Multi-Mind AI</title>
+    <!-- استيراد خطوط وتصميم الأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0f172a;    /* كحلي داكن */
+            --secondary-color: #1e293b;  /* كحلي فاتح */
+            --accent-green: #10b981;     /* أخضر */
+            --accent-purple: #8b5cf6;    /* بنفسجي */
+            --bg-color: #090d16;         /* أسود متناسق */
+            --card-bg: #131c2e;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* نافذة الترحيب الأولى */
+        #welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 8, 15, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, var(--card-bg), var(--secondary-color));
+            border: 2px solid var(--accent-purple);
+            border-radius: 24px;
+            padding: 35px;
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+            position: relative;
+        }
+
+        /* حركة تفاعلية كأن الشخصية تتكلم وترحب بحيوية */
+        @keyframes talkAnimation {
+            0% { transform: translateY(0) scale(1) rotate(0deg); }
+            20% { transform: translateY(-5px) scale(1.03) rotate(-1.5deg); }
+            40% { transform: translateY(0) scale(1) rotate(0deg); }
+            60% { transform: translateY(-5px) scale(1.03) rotate(1.5deg); }
+            80% { transform: translateY(0) scale(1) rotate(0deg); }
+            100% { transform: translateY(0) scale(1) rotate(0deg); }
+        }
+
+        .graduate-avatar {
+            width: 130px;
+            height: 130px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+            border: 4px solid var(--accent-purple);
+            animation: talkAnimation 2.2s ease-in-out infinite; /* تطبيق حركة التكلم والتفاعل */
+        }
+
+        .graduate-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .welcome-card h2 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .welcome-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.6);
+        }
+
+        /* رأس الصفحة (شعار الموقع) */
+        header {
+            background: var(--primary-color);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--text-color), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* اختيار اللغات */
+        .lang-select {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--accent-purple);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .menu-dots-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .menu-dots-btn:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* محتوى الموقع الرئيسي */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* الشريط الجانبي (سجل البحث والتنقل) */
+        aside {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            height: fit-content;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        aside h3 {
+            font-size: 16px;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 10px;
+        }
+
+        .search-history-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .search-history-item {
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.02);
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+            border-right: 3px solid var(--accent-purple);
+        }
+
+        .search-history-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--text-color);
+        }
+
+        /* منطقة العمل الوسطى */
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* تبويبات الأقسام والأوضاع */
+        .modes-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .mode-tab {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mode-tab.active {
+            background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+            color: white;
+            border-color: var(--accent-purple);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .section-box {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .section-box.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* صندوق الإدخال الذكي والدردشة */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-output {
+            background: rgba(9, 13, 22, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 12px;
+            max-width: 80%;
+            line-height: 1.6;
+        }
+
+        .message.user {
+            background: var(--secondary-color);
+            align-self: flex-start;
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .message.ai {
+            background: var(--card-bg);
+            align-self: flex-end;
+            border-left: 4px solid var(--accent-purple);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .quick-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        .input-box-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .input-box-wrapper input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .tool-icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 5px;
+        }
+
+        .tool-icon-btn:hover {
+            color: var(--accent-green);
+        }
+
+        .send-btn {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .send-btn:hover {
+            background: #059669;
+        }
+
+        /* مختبر الذكاء الاصطناعي */
+        .lab-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .model-checkbox {
+            background: var(--secondary-color);
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+
+        .model-checkbox input {
+            accent-color: var(--accent-purple);
+        }
+
+        .compare-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .model-answer-card {
+            background: var(--secondary-color);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .model-answer-card h4 {
+            color: var(--accent-purple);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        /* وضع الطالب الذكي واختبر نفسي */
+        .student-mode-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .study-btn {
+            background: var(--secondary-color);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-color);
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .study-btn:hover, .study-btn.active {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.05);
+            color: var(--accent-green);
+        }
+
+        .quiz-container {
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .quiz-question {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .quiz-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 15px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .quiz-option.correct {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .quiz-option.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- نافذة الترحيب الأولى (صورة البنت الكرتونية بحركة التكلم والتفاعل) -->
+    <div id="welcome-modal">
+        <div class="welcome-card">
+            <div class="graduate-avatar">
+                <img src="WhatsApp Image 2026-10-25 at 12.15.59 PM.jpeg" alt="صورة البنت الترحيبية">
+            </div>
+            <h2 id="wel-title">أهلاً بك!</h2>
+            <p id="wel-text">نحن سعداء بزيارتك لنا. إن كان لديك أي أسئلة أو كنت بحاجة إلى مساعدة، فلا تتردد في طلبها. نتمنى لك تجربة ممتعة ومفيدة معنا!</p>
+            <button class="btn-start" onclick="closeWelcomeModal()" id="wel-btn">ابدأ التجربة</button>
+        </div>
+    </div>
+
+    <!-- رأس الصفحة (شعار الموقع) -->
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">
+                <img src="WhatsApp Image 2026-10-23 at 8.31.21 PM.jpeg" alt="شعار الموقع">
+            </div>
+            <span class="logo-text" id="site-logo-name">العقل المتعدد</span>
+        </div>
+        <div class="header-controls">
+            <select class="lang-select" id="language-switcher" onchange="changeLanguage(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="tr">Türkçe</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+            </select>
+            <button class="menu-dots-btn" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main>
+        <!-- الشريط الجانبي (سجل البحث) -->
+        <aside>
+            <h3 id="sidebar-history-title"><i class="fa-solid fa-clock-rotate-left"></i> سجل البحث</h3>
+            <ul class="search-history-list" id="search-history">
+                <li class="search-history-item" onclick="loadHistoryItem('ما هي عاصمة السعودية؟')">ما هي عاصمة السعودية؟</li>
+                <li class="search-history-item" onclick="loadHistoryItem('متى انتهت الحرب العالمية الثانية؟')">متى انتهت الحرب العالمية الثانية؟</li>
+            </ul>
+        </aside>
+
+        <!-- منطقة العمل -->
+        <div class="workspace">
+            <!-- أزرار التنقل بين الأوضاع -->
+            <div class="modes-nav">
+                <button class="mode-tab active" onclick="switchSection('general-chat')" id="tab-general">
+                    <i class="fa-solid fa-comments"></i> المساعد الذكي
+                </button>
+                <button class="mode-tab" onclick="switchSection('smart-student')" id="tab-student">
+                    <i class="fa-solid fa-graduation-cap"></i> وضع الطالب الذكي
+                </button>
+                <button class="mode-tab" onclick="switchSection('ai-lab')" id="tab-lab">
+                    <i class="fa-solid fa-flask"></i> مختبر الذكاء الاصطناعي
+                </button>
+            </div>
+
+            <!-- 1. القسم العام / المساعد الذكي -->
+            <div id="section-general-chat" class="section-box active">
+                <div class="chat-container">
+                    <div class="chat-output" id="chat-output">
+                        <div class="message ai" id="welcome-msg-ai">أهلاً بك! أنا مساعدك الذكي. اطرح أي سؤال وسأعطيك الإجابة الصحيحة مع خيارات تفاعلية سريعة.</div>
+                    </div>
+                    <div class="quick-options" id="quick-options-bar">
+                        <button class="quick-btn" onclick="sendQuickPrompt('سؤال سريع')">⚡ سؤال سريع</button>
+                        <button class="quick-btn" onclick="sendQuickPrompt('إجابة بالتفصيل')">📖 إجابة بالتفصيل</button>
+                        <button class="quick-btn" onclick="startQuickQuizFromChat()">🎯 اختبر نفسي</button>
+                    </div>
+                    <div class="input-box-wrapper">
+                        <button class="tool-icon-btn" title="إدراج صورة" onclick="triggerImageUpload()"><i class="fa-solid fa-image"></i></button>
+                        <button class="tool-icon-btn" title="تصوير" onclick="triggerCamera()"><i class="fa-solid fa-camera"></i></button>
+                        <input type="text" id="user-input" placeholder="اكتب سؤالك أو موضوعك هنا..." onkeypress="handleKeyPress(event)">
+                        <button class="send-btn" onclick="sendMessage()" id="send-btn-text">إرسال</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. وضع الطالب الذكي -->
+            <div id="section-smart-student" class="section-box">
+                <h3 style="margin-bottom: 15px; color: var(--accent-green);" id="student-mode-title">لوحة الطالب الذكي</h3>
+                <div class="student-mode-options">
+                    <button class="study-btn" onclick="setStudentMode('explain')" id="btn-mode-1">شرح الدرس</button>
+                    <button class="study-btn" onclick="setStudentMode('step')" id="btn-mode-2">الحل خطوة بخطوة</button>
+                    <button class="study-btn active" onclick="setStudentMode('quiz')" id="btn-mode-3">اختبر نفسي</button>
+                </div>
+                
+                <div id="student-dynamic-area">
+                    <div class="quiz-container">
+                        <div class="quiz-question" id="quiz-q-text">س: متى انتهت الحرب العالمية الثانية رسمياً؟</div>
+                        <div class="quiz-options-list" id="quiz-options-container">
+                            <!-- يتم تعبئتها ديناميكياً -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. مختبر الذكاء الاصطناعي -->
+            <div id="section-ai-lab" class="section-box">
+                <h3 style="margin-bottom: 15px; color: var(--accent-purple);" id="lab-title">مختبر مقارنة نماذج الذكاء الاصطناعي</h3>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;" id="lab-desc">اختر عدة نماذج وقارن إجاباتهم واصنع الإجابة الموحدة.</p>
+                
+                <div class="lab-models-grid">
+                    <label class="model-checkbox"><input type="checkbox" checked value="Model A"> نموذج Alpha-AI</label>
+                    <label class="model-checkbox"><input type="checkbox" checked value="Model B"> نموذج Neural-X</label>
+                    <label class="model-checkbox"><input type="checkbox" checked value="Model C"> نموذج DeepMind Pro</label>
+                </div>
+
+                <div class="input-box-wrapper" style="margin-bottom: 15px;">
+                    <input type="text" id="lab-input" placeholder="اكتب سؤالك أو الطلب الذي سيتم إرساله لكل النماذج مرة واحدة...">
+                    <button class="send-btn" onclick="runAILab()" id="lab-send-btn">تشغيل المقارنة</button>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <button class="btn-start" onclick="generateBestAnswer()" id="best-ans-btn">أنشئ أفضل إجابة موحدة 🌟</button>
+                </div>
+
+                <div class="compare-results" id="lab-results-container">
+                    <div class="model-answer-card">
+                        <h4 id="model-a-title">إجابة النموذج A</h4>
+                        <p style="color: var(--text-muted); font-size: 14px;" id="model-a-text">بانتظار إدخال الطلب...</p>
+                    </div>
+                    <div class="model-answer-card">
+                        <h4 id="model-b-title">إجابة النموذج B</h4>
+                        <p style="color: var(--text-muted); font-size: 14px;" id="model-b-text">بانتظار إدخال الطلب...</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // قاعدة بيانات الأسئلة الشاملة (جميع الأقسام الـ 15)
+        const knowledgeBase = [
+            { q: "متى انتهت الحرب العالمية الثانية رسمياً؟", a: "في عام 1945م.", wrong: ["في عام 1939م.", "في عام 1950م."] },
+            { q: "من هو قائد الفتوحات الإسلامية في بلاد الشام والعراق والذي أُطلق عليه لقب سيف الله المسلول؟", a: "خالد بن الوليد رضي الله عنه.", wrong: ["عمر بن الخطاب رضي الله عنه.", "أبو عبيدة بن الجراح رضي الله عنه."] },
+            { q: "في أي عام قامت الثورة الفرنسية؟", a: "في عام 1789م.", wrong: ["في عام 1750م.", "في عام 1815م."] },
+            { q: "من هو أول خلفاء بني أمية ومؤسس الدولة الأموية؟", a: "معاوية بن أبي سفيان رضي الله عنه.", wrong: ["عثمان بن عفان رضي الله عنه.", "عمرو بن العاص رضي الله عنه."] },
+            { q: "ما هي العاصمة التاريخية للإمبراطورية البيزنطية قبل أن تُعرف بإسطنبول؟", a: "القسطنطينية.", wrong: ["روما.", "أثينا."] },
+            { q: "ما هو أطول نهر في العالم؟", a: "نهر النيل.", wrong: ["نهر الأمازون.", "نهر المسيسيبي."] },
+            { q: "ما هي أصغر دولة في العالم من حيث المساحة؟", a: "دولة الفاتيكان.", wrong: ["موناكو.", "سان مارينو."] },
+            { q: "ما هي عاصمة دولة أستراليا؟", a: "كانبيرا (وليست سيدني).", wrong: ["سيدني.", "ملبورن."] },
+            { q: "في أي قارة تقع صحراء كالاهاري؟", a: "قارة أفريقيا.", wrong: ["قارة آسيا.", "قارة أستراليا."] },
+            { q: "ما هو المحيط الأكبر مساحة على وجه الأرض؟", a: "المحيط الهادئ.", wrong: ["المحيط الأطلسي.", "المحيط الهندي."] },
+            { q: "ما هو ناتج ضرب 7 في 8؟", a: "56.", wrong: ["48.", "64."] },
+            { q: "ما هو العدد الأولي الوحيد الزوجي بين الأعداد؟", a: "العدد 2.", wrong: ["العدد 4.", "العدد 0."] },
+            { q: "كم يساوي مجموع قياسات زوايا المثلث الداخلية؟", a: "180 درجة.", wrong: ["360 درجة.", "90 درجة."] },
+            { q: "ما هي قيمة الجذر التربيعي للعدد 144؟", a: "12.", wrong: ["14.", "11."] },
+            { q: "إذا كان سعر سلعة 100 ريال وتم خصم 20% منها، فكم يصبح سعرها؟", a: "80 ريالاً.", wrong: ["70 ريالاً.", "90 ريالاً."] },
+            { q: "ما هو العضو الأساسي المسؤول عن تنقية الدم في جسم الإنسان؟", a: "الكليتان.", wrong: ["الكبد.", "القلب."] },
+            { q: "ما هي فصيلة الدم التي تُعرف بـ المعطي العام؟", a: "فصيلة الدم O (سالب).", wrong: ["فصيلة الدم A+.", "فصيلة الدم AB+."] },
+            { q: "كم يبلغ عدد عظام جسم الإنسان البالغ تقريباً؟", a: "206 عظمة.", wrong: ["180 عظمة.", "250 عظمة."] },
+            { q: "ما هو الفيتامين الذي يتم إنتاجه في جسم الإنسان عند التعرض لأشعة الشمس؟", a: "فيتامين د (Vitamin D).", wrong: ["فيتامين سي (Vitamin C).", "فيتامين أ (Vitamin A)."] },
+            { q: "ما هي الغدة الرئيسية المسؤولة عن تنظيم عملية الأيض في الجسم؟", a: "الغدة الدرقية.", wrong: ["الغدة النخامية.", "البنكرياس."] },
+            { q: "في أي عام تم توحيد المملكة العربية السعودية رسمياً؟", a: "في عام 1932م (الموافق 1351 هـ).", wrong: ["في عام 1902م.", "في عام 1950م."] },
+            { q: "ما هو اسم المشروع السعودي الضخم لبناء مدينة ذكية مستدامة خالية من الكربون؟", a: "مشروع نيوم (NEOM).", wrong: ["مشروع الدرعية.", "مشروع القدية."] },
+            { q: "من هو ولي العهد ورئيس مجلس الوزراء الحالي في المملكة العربية السعودية؟", a: "الأمير محمد بن سلمان بن عبدالعزيز آل سعود.", wrong: ["الأمير خالد بن سلمان.", "الأمير عبد العزيز بن تركي."] },
+            { q: "ما هي عاصمة المملكة العربية السعودية؟", a: "مدينة الرياض.", wrong: ["مدينة جدة.", "مدينة مكة المكرمة."] },
+            { q: "ما هو المعلم التاريخي والثقافي في العاصمة الرياض الذي شهد انطلاقة تأسيس المملكة؟", a: "قصر المصمك.", wrong: ["قصر المربع.", "قصر شبرا."] },
+            { q: "ماذا تعني اختصار كلمة AI في عالم التكنولوجيا الحديث؟", a: "الذكاء الاصطناعي (Artificial Intelligence).", wrong: ["التفاعل الآلي (Automated Interaction).", "التطبيقات المتقدمة (Advanced Innovations)."] },
+            { q: "من هو مخترع شبكة الويب العالمية؟", a: "تيم برنرز لي.", wrong: ["بيل جيتس.", "ستيف جوبز."] },
+            { q: "ما هي لغة البرمجة الأكثر استخداماً في علوم البيانات وتطبيقات الذكاء الاصطناعي حالياً؟", a: "لغة بايثون (Python).", wrong: ["لغة جافا (Java).", "لغة سي بلس بلس (C++)."] },
+            { q: "ما هو أسرع حيوان بري على وجه الأرض؟", a: "الفهد (Cheetah).", wrong: ["الأسد.", "الغزال."] },
+            { q: "ما هو الكوكب الأقرب إلى الشمس في المجموعة الشمسية؟", a: "كوكب عطارد.", wrong: ["كوكب الزهرة.", "كوكب المريخ."] },
+            { q: "ما اسم المجرة التي تنتمي إليها مجموعتنا الشمسية؟", a: "مجرة درب التبانة.", wrong: ["مجرة المرأة المسلسلة.", "مجرة السحابة."] },
+            { q: "ما هو الكوكب الذي يُعرف بـ الكوكب الأحمر؟", a: "كوكب المريخ.", wrong: ["كوكب زحل.", "كوكب المشتري."] },
+            { q: "كم عدد أركان الإسلام؟", a: "خمسة أركان.", wrong: ["أربعة أركان.", "ستة أركان."] },
+            { q: "من هو الصحابي الجليل الذي لُقّب بـ ذو النورين لزواجه من ابنتي النبي صلى الله عليه وسلم؟", a: "عثمان بن عفان رضي الله عنه.", wrong: ["علي بن أبي طالب رضي الله عنه.", "عمر بن الخطاب رضي الله عنه."] },
+            { q: "ما هي السورة القرآنية التي تُعرف بـ قلب القرآن؟", a: "سورة يس.", wrong: ["سورة الملك.", "سورة البقرة."] },
+            { q: "كم عدد الخلفاء الراشدين رضي الله عنهم؟", a: "أربعة خلفاء.", wrong: ["ثلاثة خلفاء.", "خمسة خلفاء."] },
+            { q: "ما هي أول غزوة غزاها النبي محمد صلى الله عليه وسلم بنفسه؟", a: "غزوة الأبواء (ودان).", wrong: ["غزوة بدر.", "غزوة أحد."] }
+        ];
+
+        // ترجمات اللغات الخمس
+        const translations = {
+            ar: {
+                title: "العقل المتعدد | Multi-Mind AI",
+                logo: "العقل المتعدد",
+                welTitle: "أهلاً بك!",
+                welText: "نحن سعداء بزيارتك لنا. إن كان لديك أي أسئلة أو كنت بحاجة إلى مساعدة، فلا تتردد في طلبها. نتمنى لك تجربة ممتعة ومفيدة معنا!",
+                welBtn: "ابدأ التجربة",
+                historyTitle: "سجل البحث",
+                tabGen: "المساعد الذكي",
+                tabStud: "وضع الطالب الذكي",
+                tabLab: "مختبر الذكاء الاصطناعي",
+                sendBtn: "إرسال",
+                inputPlaceholder: "اكتب سؤالك أو موضوعك هنا...",
+                aiWelcome: "أهلاً بك! أنا مساعدك الذكي. اطرح أي سؤال وسأعطيك الإجابة الصحيحة مع خيارات تفاعلية سريعة.",
+                studentTitle: "لوحة الطالب الذكي",
+                mode1: "شرح الدرس",
+                mode2: "الحل خطوة بخطوة",
+                mode3: "اختبر نفسي",
+                labTitle: "مختبر مقارنة نماذج الذكاء الاصطناعي",
+                labDesc: "اختر عدة نماذج وقارن إجاباتهم واصنع الإجابة الموحدة.",
+                labSend: "تشغيل المقارنة",
+                bestAnsBtn: "أنشئ أفضل إجابة موحدة 🌟"
+            },
+            en: {
+                title: "Multi-Mind AI",
+                logo: "Multi-Mind AI",
+                welTitle: "Welcome!",
+                welText: "We are glad to have you. If you have any questions or need assistance, feel free to ask. Have a wonderful and useful experience with us!",
+                welBtn: "Start Experience",
+                historyTitle: "Search History",
+                tabGen: "Smart Assistant",
+                tabStud: "Smart Student Mode",
+                tabLab: "AI Lab",
+                sendBtn: "Send",
+                inputPlaceholder: "Type your question or topic here...",
+                aiWelcome: "Welcome! I am your smart assistant. Ask any question and I will give you the correct answer with quick interactive options.",
+                studentTitle: "Smart Student Dashboard",
+                mode1: "Lesson Explanation",
+                mode2: "Step-by-Step Solution",
+                mode3: "Test Myself",
+                labTitle: "AI Models Comparison Lab",
+                labDesc: "Select multiple models, compare their answers, and generate the ultimate unified response.",
+                labSend: "Run Comparison",
+                bestAnsBtn: "Generate Best Unified Answer 🌟"
+            },
+            tr: {
+                title: "Multi-Mind AI | Çoklu Akıl",
+                logo: "Çoklu Akıl",
+                welTitle: "Hoş Geldiniz!",
+                welText: "Ziyaretinizden mutluluk duyduk. Herhangi bir sorunuz varsa veya yardıma ihtiyacınız çekinmeyin.",
+                welBtn: "Deneyimi Başlat",
+                historyTitle: "Arama Geçmişi",
+                tabGen: "Akıllı Asistan",
+                tabStud: "Akıllı Öğrenci Modu",
+                tabLab: "Yapay Zeka Laboratuvarı",
+                sendBtn: "Gönder",
+                inputPlaceholder: "Sorunuzu veya konunuzu buraya yazın...",
+                aiWelcome: "Hoş geldiniz! Ben akıllı asistanınızım. Herhangi bir soru sorun, size hızlı interaktif seçeneklerle doğru cevabı vereyim.",
+                studentTitle: "Akıllı Öğrenci Paneli",
+                mode1: "Ders Açıklaması",
+                mode2: "Adım Adım Çözüm",
+                mode3: "Kendimi Test Et",
+                labTitle: "Yapay Zeka Modelleri Karşılaştırma Laboratuvarı",
+                labDesc: "Birden fazla model seçin و yanıtlarını karşılaştırın.",
+                labSend: "Karşılaştırmayı Çalıştır",
+                bestAnsBtn: "En İyi Birleştirilmiş Yanıtı Üret 🌟"
+            },
+            fr: {
+                title: "Multi-Mind AI | Esprit Multiple",
+                logo: "Esprit Multiple",
+                welTitle: "Bienvenue !",
+                welText: "Nous sommes ravis de votre visite. Si vous avez des questions, n'hésitez pas à les poser.",
+                welBtn: "Commencer",
+                historyTitle: "Historique de recherche",
+                tabGen: "Assistant Intelligent",
+                tabStud: "Mode Étudiant Intelligent",
+                tabLab: "Laboratoire IA",
+                sendBtn: "Envoyer",
+                inputPlaceholder: "Tapez votre question ici...",
+                aiWelcome: "Bienvenue ! Je suis votre assistant intelligent. Posez n'importe quelle question et je vous donnerai la bonne réponse.",
+                studentTitle: "Tableau de bord étudiant",
+                mode1: "Explication de leçon",
+                mode2: "Solution étape par étape",
+                mode3: "Testez-moi",
+                labTitle: "Laboratoire de comparaison des modèles d'IA",
+                labDesc: "Sélectionnez plusieurs modèles et comparez leurs réponses.",
+                labSend: "Lancer la comparaison",
+                bestAnsBtn: "Générer la meilleure réponse unifiée 🌟"
+            },
+            es: {
+                title: "Multi-Mind AI | Mente Múltiple",
+                logo: "Mente Múltiple",
+                welTitle: "¡Bienvenido!",
+                welText: "Nos alegra tu visita. Si tienes alguna pregunta, no dudes en consultarnos.",
+                welBtn: "Iniciar Experiencia",
+                historyTitle: "Historial de búsqueda",
+                tabGen: "Asistente Inteligente",
+                tabStud: "Modo Estudiante Inteligente",
+                tabLab: "Laboratorio de IA",
+                sendBtn: "Enviar",
+                inputPlaceholder: "Escribe tu pregunta aquí...",
+                aiWelcome: "¡Bienvenido! Soy tu asistente inteligente. Haz cualquier pregunta y te daré la respuesta correcta.",
+                studentTitle: "Panel de Estudiante Inteligente",
+                mode1: "Explicación de la lección",
+                mode2: "Solución paso a paso",
+                mode3: "Ponte a prueba",
+                labTitle: "Laboratorio de comparación de modelos de IA",
+                labDesc: "Selecciona múltiples modelos و compara sus respuestas.",
+                labSend: "Ejecutar comparación",
+                bestAnsBtn: "Generar mejor respuesta unificada 🌟"
+            }
+        };
+
+        // إغلاق نافذة الترحيب
+        function closeWelcomeModal() {
+            document.getElementById('welcome-modal').style.display = 'none';
+        }
+
+        // تغيير اللغات وديناميكية اسم الموقع ورسالة المساعد
+        function changeLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+            document.getElementById('page-title').innerText = t.title;
+            document.getElementById('site-logo-name').innerText = t.logo;
+            document.getElementById('wel-title').innerText = t.welTitle;
+            document.getElementById('wel-text').innerText = t.welText;
+            document.getElementById('wel-btn').innerText = t.welBtn;
+            document.getElementById('sidebar-history-title').innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${t.historyTitle}`;
+            document.getElementById('tab-general').innerHTML = `<i class="fa-solid fa-comments"></i> ${t.tabGen}`;
+            document.getElementById('tab-student').innerHTML = `<i class="fa-solid fa-graduation-cap"></i> ${t.tabStud}`;
+            document.getElementById('tab-lab').innerHTML = `<i class="fa-solid fa-flask"></i> ${t.tabLab}`;
+            document.getElementById('send-btn-text').innerText = t.sendBtn;
+            document.getElementById('user-input').placeholder = t.inputPlaceholder;
+            document.getElementById('welcome-msg-ai').innerText = t.aiWelcome;
+            document.getElementById('student-mode-title').innerText = t.studentTitle;
+            document.getElementById('btn-mode-1').innerText = t.mode1;
+            document.getElementById('btn-mode-2').innerText = t.mode2;
+            document.getElementById('btn-mode-3').innerText = t.mode3;
+            document.getElementById('lab-title').innerText = t.labTitle;
+            document.getElementById('lab-desc').innerText = t.labDesc;
+            document.getElementById('lab-send-btn').innerText = t.labSend;
+            document.getElementById('best-ans-btn').innerText = t.bestAnsBtn;
+
+            if (lang === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', lang);
+            }
+        }
+
+        // التنقل بين الأقسام الرئيسية
+        function switchSection(sectionId) {
+            document.querySelectorAll('.section-box').forEach(box => box.classList.remove('active'));
+            document.querySelectorAll('.modes-nav button').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('section-' + sectionId).classList.add('active');
+            if (sectionId === 'general-chat') document.getElementById('tab-general').classList.add('active');
+            if (sectionId === 'smart-student') {
+                document.getElementById('tab-student').classList.add('active');
+                loadQuizQuestion();
+            }
+            if (sectionId === 'ai-lab') document.getElementById('tab-lab').classList.add('active');
+        }
+
+        // تطبيع النصوص للبحث بدقة
+        function normalizeText(str) {
+            return str
+                .toLowerCase()
+                .replace(/[إأآا]/g, 'ا')
+                .replace(/ة/g, 'ه')
+                .replace(/ى/g, 'ي')
+                .replace(/[\u064b-\u0652]/g, '')
+                .replace(/[^\w\sآ-ي]/g, '');
+        }
+
+        // تفاعل الدردشة وإرسال الأسئلة
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appendMessage(text, 'user');
+            addToHistory(text);
+            input.value = '';
+
+            setTimeout(() => {
+                const normInput = normalizeText(text);
+                let foundAnswer = knowledgeBase.find(item => {
+                    const normQ = normalizeText(item.q);
+                    return normQ.includes(normInput) || normInput.includes(normQ);
+                });
+
+                let responseText = "";
+                if (foundAnswer) {
+                    responseText = `الإجابة الصحيحة: ${foundAnswer.a}`;
+                } else {
+                    const keywords = normInput.split(/\s+/).filter(w => w.length > 2);
+                    let bestMatch = null;
+                    let maxMatches = 0;
+                    knowledgeBase.forEach(item => {
+                        const normQ = normalizeText(item.q);
+                        let score = 0;
+                        keywords.forEach(kw => {
+                            if (normQ.includes(kw)) score++;
+                        });
+                        if (score > maxMatches) {
+                            maxMatches = score;
+                            bestMatch = item;
+                        }
+                    });
+
+                    if (maxMatches > 0 && bestMatch) {
+                        responseText = `الإجابة الصحيحة بناءً على طلبك: ${bestMatch.a}`;
+                    } else {
+                        responseText = `بناءً على تحليلي لطلبك (${text}): الإجابة هي أن هذا الموضوع يتطلب فهماً دقيقاً للأنظمة والبيانات المتاحة. جرب اختيار "سؤال سريع" أو تصفح الأقسام.`;
+                    }
+                }
+                appendMessage(responseText, 'ai');
+            }, 600);
+        }
+
+        function appendMessage(text, sender) {
+            const chatOutput = document.getElementById('chat-output');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            msgDiv.innerText = text;
+            chatOutput.appendChild(msgDiv);
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+        }
+
+        function sendQuickPrompt(type) {
+            const input = document.getElementById('user-input');
+            input.value = type;
+            sendMessage();
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function addToHistory(query) {
+            const historyList = document.getElementById('search-history');
+            const li = document.createElement('li');
+            li.className = 'search-history-item';
+            li.innerText = query;
+            li.onclick = () => loadHistoryItem(query);
+            historyList.insertBefore(li, historyList.firstChild);
+        }
+
+        function loadHistoryItem(query) {
+            document.getElementById('user-input').value = query;
+            switchSection('general-chat');
+        }
+
+        function triggerImageUpload() {
+            alert('تم فتح نافذة إدراج الصور. يمكنك اختيار صورة السؤال لرفعها وتحليلها.');
+            addToHistory('إدراج وتحليل صورة');
+        }
+
+        function triggerCamera() {
+            alert('تم تشغيل وضع التصوير الفوري لالتقاط صورة السؤال.');
+            addToHistory('تصوير سؤال مباشر');
+        }
+
+        function toggleMenu() {
+            alert('خيارات إضافية للموقع (سجل النشاطات، الإعدادات، المساعدة).');
+        }
+
+        let currentQuizIndex = 0;
+        function loadQuizQuestion() {
+            const qObj = knowledgeBase[currentQuizIndex % knowledgeBase.length];
+            document.getElementById('quiz-q-text').innerText = "س: " + qObj.q;
+            
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+
+            let options = [
+                { text: qObj.a, correct: true },
+                { text: qObj.wrong[0], correct: false },
+                { text: qObj.wrong[1], correct: false }
+            ].sort(() => Math.random() - 0.5);
+
+            options.forEach(opt => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'quiz-option';
+                optDiv.innerText = opt.text;
+                optDiv.onclick = () => {
+                    Array.from(optionsContainer.children).forEach(child => child.style.pointerEvents = 'none');
+                    if (opt.correct) {
+                        optDiv.classList.add('correct');
+                        optDiv.innerHTML += ' ✓ إجابة صحيحة!';
+                    } else {
+                        optDiv.classList.add('wrong');
+                        optDiv.innerHTML += ' ✗ إجابة خاطئة!';
+                        Array.from(optionsContainer.children).forEach(child => {
+                            if (child.innerText.includes(qObj.a)) child.classList.add('correct');
+                        });
+                    }
+                    setTimeout(() => {
+                        currentQuizIndex++;
+                        loadQuizQuestion();
+                    }, 2500);
+                };
+                optionsContainer.appendChild(optDiv);
+            });
+        }
+
+        function startQuickQuizFromChat() {
+            switchSection('smart-student');
+            setStudentMode('quiz');
+        }
+
+        function setStudentMode(mode) {
+            document.querySelectorAll('.study-btn').forEach(btn => btn.classList.remove('active'));
+            if(mode === 'explain') {
+                document.getElementById('btn-mode-1').classList.add('active');
+                document.getElementById('student-dynamic-area').innerHTML = `<div class="quiz-container"><p style="line-height:1.8;"><b>شرح الدرس:</b> يعتمد هذا القسم على تحليل المنهج الدراسي وتقديم تبسيط كامل للمفاهيم المعقدة مع أمثلة توضيحية شاملة تضمن استيعاب الطالب بالكامل.</p></div>`;
+            } else if(mode === 'step') {
+                document.getElementById('btn-mode-2').classList.add('active');
+                document.getElementById('student-dynamic-area').innerHTML = `<div class="quiz-container"><p style="line-height:1.8;"><b>الحل خطوة بخطوة:</b><br>1. تحليل المعطيات في السؤال بدقة.<br>2. تطبيق القاعدة أو القانون المناسب.<br>3. استخراج النتيجة النهائية والتحقق من صحتها.</p></div>`;
+            } else {
+                document.getElementById('btn-mode-3').classList.add('active');
+                document.getElementById('student-dynamic-area').innerHTML = `
+                    <div class="quiz-container">
+                        <div class="quiz-question" id="quiz-q-text">س: متى انتهت الحرب العالمية الثانية رسمياً؟</div>
+                        <div class="quiz-options-list" id="quiz-options-container"></div>
+                    </div>`;
+                loadQuizQuestion();
+            }
+        }
+
+        function runAILab() {
+            const promptText = document.getElementById('lab-input').value.trim() || "السؤال الافتراضي في المختبر";
+            document.getElementById('model-a-text').innerText = `إجابة نموذج Alpha-AI حول (${promptText}): تحليل شامل وموثوق يعتمد على البيانات التاريخية المحدثة.`;
+            document.getElementById('model-b-text').innerText = `إجابة نموذج Neural-X حول (${promptText}): تركيز على التفاصيل الدقيقة واستنتاج الأبعاد المرتبطة.`;
+            addToHistory('مقارنة في مختبر الذكاء الاصطناعي');
+        }
+
+        function generateBestAnswer() {
+            const resultsContainer = document.getElementById('lab-results-container');
+            const bestCard = document.createElement('div');
+            bestCard.className = 'model-answer-card';
+            bestCard.style.gridColumn = "1 / -1";
+            bestCard.style.borderColor = "var(--accent-green)";
+            bestCard.innerHTML = `
+                <h4 style="color: var(--accent-green);">🌟 أفضل إجابة موحدة ومتحقق منها</h4>
+                <p style="color: var(--text-color); font-size: 15px; line-height: 1.6;">تم دمج واستخلاص نقاط القوة من كافة النماذج مع التحقق الكامل من صحة المعلومات وخلوها من الأخطاء لتقديم الإجابة النهائية المثالية.</p>
+            `;
+            resultsContainer.appendChild(bestCard);
+        }
+    </script>
+</body>
+</html>
